@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.barberia.domain;
 
 import jakarta.persistence.*;
@@ -42,3 +38,9 @@ public class Cita implements Serializable {
     @JoinColumn(name="id_servicio")
     private Servicio servicio;
 }
+
+
+
+
+
+

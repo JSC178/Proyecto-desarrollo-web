@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{general/fragmentos :: head}"></head>
+
+<body>
+
+<header th:replace="~{general/fragmentos :: header}"></header>
+
+<main class="container py-4">
+
+    <h2>[[#{servicios.titulo}]]</h2>
+
+    <div th:if="${servicios != null and !servicios.empty}">
+        <div class="row">
+
+            <div class="col-md-4 mb-3"
+                 th:each="s : ${servicios}">
+
+                <div class="card">
+
+                    <div class="card-body">
+
+                        <h5 th:text="${s.nombre}">Servicio</h5>
+
+                        <p>
+                            <strong>[[#{servicios.precio}]]:</strong>
+                            <span th:text="${s.precio}"></span>
+                        </p>
+
+                        <p>
+                            <strong>[[#{servicios.duracion}]]:</strong>
+                            <span th:text="${s.duracionMinutos}"></span>
+                            [[#{servicios.min}]]
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div th:if="${servicios == null or servicios.empty}"
+         class="alert alert-info">
+
+        [[#{lista.vacia}]]
+
+    </div>
+
+</main>
+
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
+</html>
