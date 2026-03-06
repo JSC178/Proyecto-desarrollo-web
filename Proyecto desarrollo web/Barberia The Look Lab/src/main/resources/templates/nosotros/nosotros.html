@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
+    <body style="background-color: var(--marfil);">
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main class="container py-5">
+
+            <section class="row align-items-center mb-5 pb-5">
+                <div class="col-md-5 text-center mb-4">
+                    <div class="p-4 bg-white shadow-sm border" style="border-radius: 20px;">
+                        <span class="badge text-uppercase mb-3 px-3 py-2" 
+                              style="background-color: var(--azul-petroleo); letter-spacing: 2px;"
+                              th:text="#{nosotros.experiencia}"></span>
+                        <img th:src="@{/img/logo.png}" alt="Logo The Look Lab" class="img-fluid mb-3" style="max-width: 200px;">
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <h6 class="text-uppercase fw-bold" style="color: var(--terracota); letter-spacing: 3px;" 
+                        th:text="#{nosotros.historia.titulo}"></h6>
+                    <h2 class="display-5 fw-bold mb-4" style="color: var(--azul-petroleo); font-family: serif;" 
+                        th:text="#{nosotros.historia.subtitulo}"></h2>
+                    <div class="lead" style="color: var(--gris-antracita); text-align: justify;">
+                        <p th:text="#{nosotros.historia.parrafo1}"></p>
+                        <p th:text="#{nosotros.historia.parrafo2}"></p>
+                        <p class="fw-bold mt-4" style="border-left: 4px solid var(--terracota); padding-left: 15px;" 
+                           th:text="#{nosotros.historia.parrafo3}"></p>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="my-5" style="border-top: 2px dashed var(--nude-rosado);">
+
+                <section class="text-center mb-5">
+                    <h2 class="display-4 fw-bold text-uppercase mb-5" style="color: var(--azul-petroleo); font-family: 'Georgia', serif;" 
+                        th:text="#{nosotros.filosofia.titulo}"></h2>
+                    <div class="row g-4 text-start">
+
+                        <div class="col-md-4">
+                            <div class="p-4 h-100 border-start border-4" style="border-color: var(--terracota) !important; background-color: rgba(255,255,255,0.5);">
+                                <h4 class="fw-bold text-uppercase" style="color: var(--azul-petroleo);" th:text="#{nosotros.filosofia.pilar1.titulo}"></h4>
+                                <p th:text="#{nosotros.filosofia.pilar1.desc}"></p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="p-4 h-100 border-start border-4" style="border-color: var(--mostaza) !important; background-color: rgba(255,255,255,0.5);">
+                                <h4 class="fw-bold text-uppercase" style="color: var(--azul-petroleo);" th:text="#{nosotros.filosofia.pilar2.titulo}"></h4>
+                                <p th:text="#{nosotros.filosofia.pilar2.desc}"></p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="p-4 h-100 border-start border-4" style="border-color: var(--verde-salvia) !important; background-color: rgba(255,255,255,0.5);">
+                                <h4 class="fw-bold text-uppercase" style="color: var(--azul-petroleo);" th:text="#{nosotros.filosofia.pilar3.titulo}"></h4>
+                                <p th:text="#{nosotros.filosofia.pilar3.desc}"></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="py-5 px-4 text-center rounded shadow-sm" style="background-color: var(--azul-petroleo); color: white;">
+                    <h3 class="text-uppercase fw-bold mb-3" style="color: var(--rosa-palo); letter-spacing: 5px;" 
+                        th:text="#{nosotros.promesa.titulo}"></h3>
+                    <p class="fs-4 fst-italic mb-4" th:text="#{nosotros.promesa.cita}"></p>
+                    <h2 class="fw-light" th:text="#{nosotros.promesa.bienvenida}"></h2>
+                </section>
+
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+    </body>
+</html>

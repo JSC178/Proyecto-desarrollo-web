@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{general/fragmentos :: head}"></head>
+
+<body style="background-color: var(--marfil);">
+
+    <header th:replace="~{general/fragmentos :: header}"></header>
+
+    <main class="container py-5">
+        <div class="row mb-4">
+            <div class="col text-center">
+                <h2 class="display-4 fw-bold text-uppercase hero-title" style="color: var(--azul-petroleo);">
+                    [[#{servicios.titulo}]]
+                </h2>
+                <hr class="mx-auto" style="width: 100px; height: 5px; background-color: var(--terracota); opacity: 1;">
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <div class="servicios-scroll shadow-sm">
+                    
+                    <div th:each="s : ${servicios}" class="service-item d-flex justify-content-between align-items-center p-4 border-bottom">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-cut me-3" style="color: var(--terracota);"></i>
+                            <div>
+                                <h5 class="mb-0 fw-bold text-uppercase" style="color: var(--azul-petroleo);" th:text="${s.nombre}">NOMBRE SERVICIO</h5>
+                                <small class="text-muted">
+                                    <i class="far fa-clock"></i> [[${s.duracionMinutos}]] [[#{servicios.min}]]
+                                </small>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <span class="fs-4 fw-bold" style="color: var(--terracota);">
+                                ₡[[${#numbers.formatDecimal(s.precio, 0, 'POINT', 0, 'POINT')}]]
+                            </span>
+                        </div>
+                    </div>
+
+                    <div th:if="${servicios == null or servicios.empty}" class="p-5 text-center">
+                        <p class="lead">[[#{lista.vacia}]]</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
+</html>

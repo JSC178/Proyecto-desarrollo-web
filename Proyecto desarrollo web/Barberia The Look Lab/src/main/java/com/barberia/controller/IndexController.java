@@ -15,10 +15,24 @@ public class IndexController {
     }
 
     @GetMapping("/")
-    public String cargarPaginaInicio(Model model) {
-        // Solo servicios activos
+    public String cargarPaginaInicio() {
+        return "index";
+    }
+
+    @GetMapping("/nosotros")
+    public String cargarPaginaNosotros() {
+        return "nosotros/nosotros";
+    }
+
+    @GetMapping("/servicios")
+    public String cargarPaginaServicios(Model model) {
         var servicios = servicioService.getServicios(true);
         model.addAttribute("servicios", servicios);
-        return "index";
+        return "servicios/servicios"; 
+    }
+
+    @GetMapping("/contacto")
+    public String cargarPaginaContacto() {
+        return "contacto/contacto"; 
     }
 }

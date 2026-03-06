@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
+    <body>
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main class="contacto-hero d-flex align-items-center">
+            <div class="bg-overlay"></div>
+
+            <div class="container position-relative z-1 text-white py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+
+                        <div class="text-center mb-5">
+                            <h2 class="display-5 fw-bold mb-4" style="font-family: 'Segoe UI', sans-serif;"
+                                th:text="#{contacto.pregunta}">
+                                ¿Tenés alguna duda o una necesidad especial?
+                            </h2>
+                            <p class="lead fw-normal mx-auto" style="max-width: 700px; text-align: justify; text-align-last: center;"
+                               th:text="#{contacto.descripcion}">
+                                Estamos acá para ayudarte. Escribinos y contanos qué estás buscando...
+                            </p>
+                        </div>
+
+                        <div class="row g-4 mt-5 contacto-details text-center">
+
+                            <div class="col-md-3 col-6">
+                                <div class="contacto-item d-flex flex-column align-items-center">
+                                    <i class="fab fa-whatsapp fa-2x mb-3" style="color: var(--terracota);"></i>
+                                    <h6 class="text-uppercase fw-bold m-0" th:text="#{contacto.whatsapp.titulo}">WhatsApp</h6>
+                                    <p class="m-0" th:text="#{contacto.whatsapp.dato}">(506) 8888 8888</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-6">
+                                <div class="contacto-item d-flex flex-column align-items-center">
+                                    <i class="fas fa-envelope fa-2x mb-3" style="color: var(--terracota);"></i>
+                                    <h6 class="text-uppercase fw-bold m-0" th:text="#{contacto.correo.titulo}">Correo electronico</h6>
+                                    <p class="m-0" th:text="#{contacto.correo.dato}">thelooklab@gmail.com</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-6">
+                                <div class="contacto-item d-flex flex-column align-items-center">
+                                    <i class="fas fa-map-marker-alt fa-2x mb-3" style="color: var(--terracota);"></i>
+                                    <h6 class="text-uppercase fw-bold m-0" th:text="#{contacto.direccion.titulo}">Dirección</h6>
+                                    <p class="m-0" th:text="#{contacto.direccion.dato}">San José, Costa Rica</p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-6">
+                                <div class="contacto-item d-flex flex-column align-items-center">
+                                    <i class="fas fa-map-marked-alt fa-2x mb-3" style="color: var(--terracota);"></i>
+                                    <h6 class="text-uppercase fw-bold m-0" th:text="#{contacto.waze.titulo}">Ver en Waze</h6>
+                                    <p class="m-0" th:text="#{contacto.waze.dato}">San José, Costa Rica</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+    </body>
+</html>

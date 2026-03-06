@@ -1,0 +1,168 @@
+:root {
+    --azul-petroleo: #0c3b40;
+    --terracota: #c96452;
+    --rosa-palo: #e6c8c4;
+    --nude-rosado: #dfc8c3;
+    --mostaza: #d9a05b;
+    --verde-salvia: #8c9c90;
+    --gris-antracita: #3b3b3b;
+    --marfil: #f9f8f4;
+    --oliva: #a3a88b;
+    --azul-claro-suave: #7fd9dc;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--marfil);
+    color: var(--gris-antracita);
+}
+
+.navbar {
+    background-color: var(--azul-claro-suave) !important;
+    border-bottom: 1px solid var(--nude-rosado);
+}
+
+.navbar-brand {
+    color: var(--azul-petroleo) !important;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    font-size: 1.4rem;
+}
+
+.nav-link {
+    color: var(--gris-antracita) !important;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--terracota) !important;
+}
+
+
+.btn-outline-dark {
+    color: var(--azul-petroleo);
+    border-color: var(--azul-petroleo);
+    font-weight: 600;
+    border-radius: 0;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.btn-outline-dark:hover {
+    background-color: var(--azul-petroleo);
+    color: white;
+}
+
+.btn-dark {
+    background-color: var(--azul-petroleo);
+    border-color: var(--azul-petroleo);
+    border-radius: 0;
+    text-transform: uppercase;
+}
+
+.btn-dark:hover {
+    background-color: var(--terracota);
+    border-color: var(--terracota);
+}
+
+
+.hero-title {
+    font-family: 'Georgia', serif;
+    letter-spacing: 4px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subtitle {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--mostaza);
+}
+
+.servicios-scroll {
+    background-color: white;
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid var(--nude-rosado);
+}
+
+.servicios-scroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.servicios-scroll::-webkit-scrollbar-track {
+    background: var(--marfil);
+}
+
+.servicios-scroll::-webkit-scrollbar-thumb {
+    background: var(--azul-petroleo);
+    border-radius: 5px;
+}
+
+.servicios-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--terracota);
+}
+
+.service-item {
+    transition: background-color 0.3s ease;
+}
+
+.service-item:hover {
+    background-color: var(--azul-claro-suave);
+    cursor: pointer;
+}
+
+.hero-title {
+    letter-spacing: 3px;
+    font-family: 'Georgia', serif;
+}
+
+
+.contacto-hero {
+    background-image: url('../img/fondo-contacto.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 80vh;
+    position: relative;
+    z-index: 1;
+}
+
+.contacto-hero .bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: -1;
+}
+
+.contacto-hero h2 {
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.contacto-hero p.lead {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.contacto-details h6 {
+    font-size: 0.8rem;
+    letter-spacing: 1.5px;
+    margin-top: 10px;
+    color: var(--marfil);
+}
+
+.contacto-details p {
+    font-size: 0.9rem;
+    color: white; 
+}
+
+.contacto-item {
+    margin-bottom: 20px;
+}
