@@ -63,6 +63,6 @@ public class IndexController {
     
     @GetMapping("/sesionIniciada")
     public String cargarPaginaSesionIniciada() {
-        return "sesionIniciada/inicio"; 
+        return "sesionIniciada/sesioniniciada"; 
     }
 }
