@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface CitaService {
     // Para ver el listado y precios 
+    public List<Cita> getCitas();
 //    public List<Cita> getCitas(Long idUsuario);
     
     // Para agendar la cita 

@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/cita")
@@ -43,11 +46,34 @@ public class CitaController {
 
     // SC-407: Guardar la cita en la base de datos
     @PostMapping("/guardar")
-    public String guardarCita(Cita cita) {
+    public String guardarCita(Cita cita, RedirectAttributes redirectAttributes) {
         // El objeto 'cita' ya viene con el id_empleado y id_servicio seleccionados
         citaService.save(cita);
         
+        //Mensaje de confirmacion de cita
+        redirectAttributes.addFlashAttribute("mensaje", "La cita fue agendada de forma correcta");
+        
         // Redirigimos al historial o al index (La Persona 4 manejará el mensaje de confirmación SC-408)
         return "redirect:/";
+    }
+    
+    //cancelación de la cita
+    @GetMapping("/cancelar/{id}")
+    public String cancelarCita(@PathVariable("id") Long idCita, RedirectAttributes redirectAttributes){
+        Cita cita = new Cita();
+        cita.setIdCita(idCita);
+        
+        citaService.delete(cita);
+        redirectAttributes.addFlashAttribute("mensaje", "La cita fue cancelada exitosamente");
+        return "redirect:/";
+    }
+    
+    //carga citas
+    @GetMapping("/listado")
+    public String listadoCitas (Model model){
+        var citas = citaService.getCitas();
+        model.addAttribute("citas, citas");
+        
+        return "servicios/listado";
     }
 }

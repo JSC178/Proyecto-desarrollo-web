@@ -7,6 +7,7 @@ package com.barberia.service.impl;
 import com.barberia.domain.Cita;
 import com.barberia.repository.CitaRepository;
 import com.barberia.service.CitaService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,12 @@ public class CitaServiceImpl implements CitaService {
     @Transactional(readOnly = true)
     public Cita getCita(Cita cita) {
         return citaRepository.findById(cita.getIdCita()).orElse(null);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<Cita> getCitas(){
+        return citaRepository.findAll();
     }
     //    @Override
 //    @Transactional(readOnly = true)
