@@ -1,15 +1,63 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{general/fragmentos :: head}"></head>
+
+<body style="background-color: var(--marfil);">
+
+    <header th:replace="~{general/fragmentos :: header}"></header>
+
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-5 col-lg-4">
+                
+                <div class="card shadow-lg border-0 mt-5" style="border-radius: 15px;">
+                    <div class="card-body p-5 text-center">
+                        
+                        <img th:src="@{/img/logo.png}" alt="Logo" width="100" class="mb-4">
+                        <h3 class="fw-bold mb-4 text-uppercase" style="color: var(--azul-petroleo); letter-spacing: 2px;">
+                            [[#{plantilla.iniciar_sesion}]]
+                        </h3>
+
+                        <form th:action="@{/login}" method="POST">
+                            
+                            <div class="form-floating mb-3">
+                                <input type="text" name="username" class="form-control" id="userInput" placeholder="Usuario" required>
+                                <label for="userInput">[[#{login.usuario}]]</label>
+                            </div>
+
+                            <div class="form-floating mb-4">
+                                <input type="password" name="password" class="form-control" id="passInput" placeholder="Contraseña" required>
+                                <label for="passInput">[[#{login.password}]]</label>
+                            </div>
+
+                            <button type="submit" class="btn btn-dark w-100 py-3 mb-3">
+                                [[#{plantilla.iniciar_sesion}]]
+                            </button>
+
+                            <div th:if="${param.error}" class="alert alert-danger py-2 small">
+                                [[#{login.error}]]
+                            </div>
+                        </form>
+
+                        <hr class="my-4">
+
+                        <p class="small text-muted mb-0">
+                            ¿Aún no tienes cuenta? 
+                            <a th:href="@{/registro/nuevo}" class="fw-bold" style="color: var(--terracota); text-decoration: none;">
+                                Regístrate aquí
+                            </a>
+                        </p>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
 </html>

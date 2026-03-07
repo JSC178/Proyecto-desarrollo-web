@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
-
-    <head th:fragment="head">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"> <head th:fragment="head">
         <title>The Look Lab</title>
         <meta charset="UTF-8"/>
 
@@ -43,6 +42,7 @@
                         </ul>
 
                         <ul class="navbar-nav align-items-center">
+
                             <li class="nav-item dropdown me-3">
                                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button">
                                     <i class="fas fa-globe"></i> [[#{plantilla.idioma}]]
@@ -53,11 +53,27 @@
                                 </ul>
                             </li>
 
-                            <li class="nav-item">
+                            <li class="nav-item" sec:authorize="!isAuthenticated()">
                                 <a class="btn btn-outline-dark" th:href="@{/login}">
                                     <i class="fas fa-user me-1"></i> [[#{plantilla.iniciar_sesion}]]
                                 </a>
                             </li>
+
+                            <li class="nav-item d-flex align-items-center" sec:authorize="isAuthenticated()">
+
+                                <a href="#" class="nav-link me-3 d-flex align-items-center text-dark" title="Perfil de Usuario">
+                                    <i class="fas fa-user-circle fa-2x me-2" style="color: var(--azul-petroleo);"></i>
+                                    <span class="fw-bold" sec:authentication="name">Usuario</span>
+                                </a>
+
+                                <form th:action="@{/logout}" method="POST" class="m-0">
+                                    <button type="submit" class="btn btn-danger btn-sm px-3 shadow-sm rounded-pill">
+                                        <i class="fas fa-sign-out-alt me-1"></i> Cerrar Sesión
+                                    </button>
+                                </form>
+
+                            </li>
+
                         </ul>
                     </div>
                 </div>

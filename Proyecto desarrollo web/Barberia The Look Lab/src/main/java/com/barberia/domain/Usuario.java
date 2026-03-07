@@ -26,6 +26,7 @@ public class Usuario implements Serializable {
     private String apellidos;
     private String correo;
     private String telefono;
+    @Column(name="ruta_imagen")
     private String rutaImagen;
     private boolean activo;
 }

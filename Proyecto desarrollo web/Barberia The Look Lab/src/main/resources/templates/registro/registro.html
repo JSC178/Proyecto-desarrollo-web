@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{general/fragmentos :: head}"></head>
+
+<body style="background-color: var(--marfil);">
+
+    <header th:replace="~{general/fragmentos :: header}"></header>
+
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                
+                <div class="card shadow-lg border-0" style="border-radius: 15px;">
+                    <div class="card-body p-5">
+                        
+                        <div class="text-center mb-4">
+                            <img th:src="@{/img/logo.png}" alt="Logo" width="80" class="mb-3">
+                            <h2 class="fw-bold text-uppercase" style="color: var(--azul-petroleo); letter-spacing: 2px;">
+                                [[#{registro.titulo}]]
+                            </h2>
+                            <p class="text-muted">[[#{registro.subtitulo}]]</p>
+                        </div>
+
+                        <form th:action="@{/registro/crear}" th:object="${usuario}" method="POST" class="row g-3">
+                            
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">[[#{registro.nombre}]]</label>
+                                <input type="text" th:field="*{nombre}" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">[[#{registro.apellidos}]]</label>
+                                <input type="text" th:field="*{apellidos}" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label fw-bold">[[#{registro.correo}]]</label>
+                                <input type="email" th:field="*{correo}" class="form-control" placeholder="ejemplo@correo.com" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">[[#{registro.username}]]</label>
+                                <input type="text" th:field="*{username}" class="form-control" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">[[#{registro.telefono}]]</label>
+                                <input type="tel" th:field="*{telefono}" class="form-control">
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label fw-bold">[[#{registro.password}]]</label>
+                                <input type="password" th:field="*{password}" class="form-control" required>
+                            </div>
+
+                            <div class="col-12 mt-4">
+                                <button type="submit" class="btn btn-dark w-100 py-3 text-uppercase fw-bold" style="letter-spacing: 2px;">
+                                    [[#{registro.boton}]]
+                                </button>
+                            </div>
+
+                        </form>
+
+                        <div class="text-center mt-4">
+                            <a th:href="@{/login}" class="text-decoration-none" style="color: var(--terracota);">
+                                [[#{registro.ya_tengo_cuenta}]]
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
+</html>
