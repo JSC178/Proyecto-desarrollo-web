@@ -35,4 +35,9 @@ public class IndexController {
     public String cargarPaginaContacto() {
         return "contacto/contacto"; 
     }
+    
+    @GetMapping("/login")
+    public String cargarPaginaLogin() {
+        return "login/login";
+    }
 }
