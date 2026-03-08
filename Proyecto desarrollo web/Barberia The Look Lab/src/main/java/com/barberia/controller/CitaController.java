@@ -40,7 +40,7 @@ public class CitaController {
         var servicios = servicioService.getServicios(true);
         model.addAttribute("servicios", servicios);
         
-        return "/sesionIniciada/sesioniniciada"; // Retorna a la vista agendar.html
+        return "cita/agendar"; // Retorna a la vista agendar.html
     }
 
     // SC-407: Guardar la cita en la base de datos
