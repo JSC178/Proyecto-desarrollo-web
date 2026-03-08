@@ -1,9 +1,11 @@
 package com.barberia.controller;
 
 import com.barberia.domain.Cita;
+import com.barberia.domain.Usuario;
 import com.barberia.service.CitaService;
 import com.barberia.service.EmpleadoService;
 import com.barberia.service.ServicioService;
+import com.barberia.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +27,9 @@ public class CitaController {
     
     @Autowired
     private ServicioService servicioService;
+    
+    @Autowired
+    private UsuarioService usuarioService;
 
     // SC-402: Mostrar el formulario y cargar la lista de barberos/estilistas
     @GetMapping("/agendar")
@@ -45,15 +50,20 @@ public class CitaController {
 
     // SC-407: Guardar la cita en la base de datos
     @PostMapping("/guardar")
-    public String guardarCita(Cita cita, RedirectAttributes redirectAttributes) {
+    public String guardarCita(Cita cita, RedirectAttributes redirectAttributes, org.springframework.security.core.Authentication auth) {
+        String username = auth.getName();
+        Usuario usuarioLogueado = usuarioService.getUsuarioPorUsername(username);
+        cita.setUsuario(usuarioLogueado);
+        cita.setEstado("Pendiente");
+        
+        
         // El objeto 'cita' ya viene con el id_empleado y id_servicio seleccionados
         citaService.save(cita);
         
         //Mensaje de confirmacion de cita
         redirectAttributes.addFlashAttribute("mensaje", "La cita fue agendada de forma correcta");
-        
-        // Redirigimos al historial o al index (La Persona 4 manejará el mensaje de confirmación SC-408)
-        return "redirect:/";
+
+        return "redirect:/sesionIniciada";
     }
     
     //cancelación de la cita
@@ -64,7 +74,7 @@ public class CitaController {
         
         citaService.delete(cita);
         redirectAttributes.addFlashAttribute("mensaje", "La cita fue cancelada exitosamente");
-        return "redirect:/";
+        return "redirect:/sesionIniciada";
     }
     
     //carga citas
@@ -73,6 +83,6 @@ public class CitaController {
         var citas = citaService.getCitas();
         model.addAttribute("citas", citas);
         
-        return "servicios/listado";
+        return "cita/listado";
     }
 }

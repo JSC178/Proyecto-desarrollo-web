@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
+    <body style="background-color: var(--marfil);">
+
+        <header th:replace="~{sesionIniciada/fragmentos :: header}"></header>
+
+        <main class="container py-5">
+
+            <div class="row mb-4">
+                <div class="col text-center">
+                    <h2 class="display-5 fw-bold text-uppercase" style="color: var(--azul-petroleo);">
+                        <i class="fas fa-history me-2"></i> Mi Historial de Citas
+                    </h2>
+                    <hr class="mx-auto" style="width: 100px; height: 5px; background-color: var(--terracota); opacity: 1;">
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="card shadow-sm border-0" style="border-radius: 15px;">
+                        <div class="card-body p-0">
+
+                            <div class="table-responsive">
+                                <table th:if="${citas != null and !citas.empty}" class="table table-hover align-middle mb-0 text-center">
+                                    <thead class="text-white" style="background-color: var(--azul-petroleo);">
+                                        <tr>
+                                            <th class="py-3 px-4">Fecha y Hora</th>
+                                            <th class="py-3 px-4">Servicio</th>
+                                            <th class="py-3 px-4">Profesional</th>
+                                            <th class="py-3 px-4">Estado</th>
+                                            <th class="py-3 px-4">Acción</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr th:each="cita : ${citas}">
+                                            <td class="py-3 fw-bold" th:text="${#temporals.format(cita.fechaHora, 'dd/MM/yyyy - hh:mm a')}"></td>
+
+                                            <td class="py-3" th:text="${cita.servicio.nombre}"></td>
+                                            <td class="py-3" th:text="${cita.empleado.nombre + ' ' + cita.empleado.apellidos}"></td>
+
+                                            <td class="py-3">
+                                                <span class="badge rounded-pill" 
+                                                      th:classappend="${cita.estado == 'Pendiente'} ? 'bg-warning text-dark' : 'bg-success'"
+                                                      th:text="${cita.estado}"></span>
+                                            </td>
+
+                                            <td class="py-3">
+                                                <a th:href="@{/cita/cancelar/{id}(id=${cita.idCita})}"
+                                                   class="btn btn-outline-danger btn-sm rounded-pill fw-bold"
+                                                   onclick="return confirm('¿Estás seguro de que deseas cancelar esta cita?');">
+                                                    <i class="fas fa-times-circle me-1"></i> Cancelar
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div th:if="${citas == null or citas.empty}" class="p-5 text-center">
+                                    <i class="far fa-calendar-times fa-4x mb-3 text-muted"></i>
+                                    <h4 class="text-muted">Aún no tienes citas agendadas</h4>
+                                    <a th:href="@{/cita/agendar}" class="btn mt-3 text-white fw-bold shadow-sm" style="background-color: var(--terracota);">
+                                        <i class="fas fa-plus me-1"></i> Agendar mi primera cita
+                                    </a>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <footer th:replace="~{sesionIniciada/fragmentos :: footer}"></footer>
+
+    </body>
+</html>

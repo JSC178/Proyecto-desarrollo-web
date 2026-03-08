@@ -5,26 +5,41 @@
     <head th:replace="~{sesionIniciada/fragmentos :: head}"></head>
 
     <body style="background-color: var(--marfil);">
-        
+
         <header th:replace="~{sesionIniciada/fragmentos :: header}"></header>
 
         <main class="container py-5 text-center mt-5">
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <img th:src="@{/img/logo.png}" alt="Logo" width="150" class="mb-4 shadow-sm rounded-circle">
-                    
-                    <h1 class="display-4 fw-bold" style="color: var(--azul-petroleo);">
-                        ¡Bienvenido a tu panel!
-                    </h1>
-                    
-                    <p class="lead mt-3" style="color: var(--gris-antracita);">
-                        Has iniciado sesión correctamente. Desde aquí podrás gestionar tus citas y explorar nuestros servicios.
-                    </p>
+
+                        <h1 class="display-4 fw-bold" style="color: var(--azul-petroleo);">
+                            ¡Bienvenido a tu panel!
+                        </h1>
+
+                        <p class="lead mt-3" style="color: var(--gris-antracita);">
+                            Has iniciado sesión correctamente. Desde aquí podrás gestionar tus citas y explorar nuestros servicios.
+                        </p>
                 </div>
             </div>
         </main>
 
         <footer th:replace="~{sesionIniciada/fragmentos :: footer}"></footer>
-        
+
+        <div th:if="${mensaje != null}">
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script th:inline="javascript">
+                Swal.fire({
+                    title: '¡Excelente!',
+                    text: [[${mensaje}]],
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar',
+                    confirmButtonColor: '#2b3a4a', /* Tono Azul Petróleo */
+                    background: '#fcfcfc', /* Tono Marfil */
+                    backdrop: `rgba(0,0,0,0.6)` /* Fondo oscurecido para resaltar el mensaje */
+                });
+            </script>
+        </div>
+
     </body>
 </html>

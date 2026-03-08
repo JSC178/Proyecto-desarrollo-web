@@ -20,20 +20,29 @@
 
             <div class="position-relative text-white" style="z-index: 1;">
                 <h1 class="display-1 fw-bold text-uppercase hero-title">THE LOOK LAB</h1>
-                <p class="fs-3 mt-3 hero-subtitle">THE 100%</p>
                 
                 <a th:href="@{/servicios}" class="btn btn-outline-light btn-lg mt-4 px-5" style="border-radius: 0; letter-spacing: 1px; text-transform: uppercase;">Ver Servicios</a>
-            </div>
-            
-            <div th:if="${mensaje}" class="alert alert-success alert-dismissible fade show" role="alert">
-                <span th:text="${mensaje}"></span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
             
         </section>
     </main>
 
     <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+    <div th:if="${mensaje != null}">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script th:inline="javascript">
+            Swal.fire({
+                title: '¡Excelente!',
+                text: [[${mensaje}]],
+                icon: 'success',
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#2b3a4a', /* Tono Azul Petróleo */
+                background: '#fcfcfc', /* Tono Marfil */
+                backdrop: `rgba(0,0,0,0.6)` /* Fondo oscurecido para resaltar el mensaje */
+            });
+        </script>
+    </div>
 
 </body>
 </html>
