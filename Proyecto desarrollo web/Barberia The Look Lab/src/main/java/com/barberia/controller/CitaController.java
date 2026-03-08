@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/cita")
@@ -72,7 +71,7 @@ public class CitaController {
     @GetMapping("/listado")
     public String listadoCitas (Model model){
         var citas = citaService.getCitas();
-        model.addAttribute("citas, citas");
+        model.addAttribute("citas", citas);
         
         return "servicios/listado";
     }
