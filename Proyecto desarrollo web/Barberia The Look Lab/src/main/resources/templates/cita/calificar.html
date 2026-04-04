@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
+    <body style="background-color: var(--marfil);">
+
+        <header th:replace="~{sesionIniciada/fragmentos :: header}"></header>
+
+        <main class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+
+                    <div class="card shadow border-0" style="border-radius: 15px;">
+                        <div class="card-header text-center text-white p-4"
+                             style="background-color: var(--azul-petroleo); border-radius: 15px 15px 0 0;">
+                            <h3 class="mb-0 fw-bold text-uppercase">
+                                <i class="fas fa-star me-2"></i> Calificar Servicio
+                            </h3>
+                        </div>
+
+                        <div class="card-body p-5">
+                            <form th:action="@{/cita/guardarCalificacion}" th:object="${cita}" method="POST">
+
+                                <input type="hidden" th:field="*{idCita}" />
+
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold" style="color: var(--azul-petroleo);">
+                                        Calificación
+                                    </label>
+                                    <select class="form-select form-select-lg" th:field="*{calificacion}" required>
+                                        <option value="">Seleccione una calificación</option>
+                                        <option value="1">1 - Muy malo</option>
+                                        <option value="2">2 - Malo</option>
+                                        <option value="3">3 - Regular</option>
+                                        <option value="4">4 - Bueno</option>
+                                        <option value="5">5 - Excelente</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold" style="color: var(--azul-petroleo);">
+                                        Comentario
+                                    </label>
+                                    <textarea class="form-control form-control-lg"
+                                              th:field="*{comentarioCalificacion}"
+                                              rows="4"
+                                              placeholder="Escriba su comentario aquí"></textarea>
+                                </div>
+
+                                <div class="d-grid mt-4">
+                                    <button type="submit"
+                                            class="btn btn-lg text-white fw-bold shadow-sm"
+                                            style="background-color: var(--terracota);">
+                                        <i class="fas fa-save me-2"></i> Guardar Calificación
+                                    </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <footer th:replace="~{sesionIniciada/fragmentos :: footer}"></footer>
+
+    </body>
+</html>
