@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface CitaRepository extends JpaRepository<Cita, Long> {
     // Para ver el historial de citas pasadas del cliente  
-//    List<Cita> findByIdUsuario(Long idUsuario);
+    List<Cita> findByIdUsuario(Long idUsuario);
 }

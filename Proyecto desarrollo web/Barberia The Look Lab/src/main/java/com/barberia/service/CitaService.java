@@ -8,15 +8,18 @@ import com.barberia.domain.Cita;
 import java.util.List;
 
 public interface CitaService {
+
     // Para ver el listado y precios 
     public List<Cita> getCitas();
-//    public List<Cita> getCitas(Long idUsuario);
-    
+
+    public List<Cita> getCitasPorUsuario(Long idUsuario);
+
     // Para agendar la cita 
     public void save(Cita cita);
-    
+
     // Para cancelar la cita 
     public void delete(Cita cita);
+
     //getter
     public Cita getCita(Cita cita);
 }

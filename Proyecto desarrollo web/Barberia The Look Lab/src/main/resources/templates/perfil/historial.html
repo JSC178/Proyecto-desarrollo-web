@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head th:replace="~{layout/fragmentos :: head}">
+    <title>Mi Historial</title>
+</head>
+<body>
+    <header th:replace="~{layout/fragmentos :: header}"></header>
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Historial de Citas</h2>
+        
+        <div th:if="${citas == null or citas.empty}" class="alert alert-warning text-center">
+            Aún no tienes citas registradas.
+        </div>
+
+        <table class="table table-striped" th:if="${citas != null and !citas.empty}">
+            <thead class="table-dark">
+                <tr>
+                    <th>Fecha y Hora</th>
+                    <th>Servicio</th>
+                    <th>Barbero/Estilista</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="cita : ${citas}">
+                    <td th:text="${#temporals.format(cita.fechaHora, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td th:text="${cita.servicio.nombre}"></td>
+                    <td th:text="${cita.empleado.nombre + ' ' + cita.empleado.apellidos}"></td>
+                    <td>
+                        <span class="badge" th:classappend="${cita.estado == 'COMPLETADA' ? 'bg-success' : 'bg-secondary'}" 
+                              th:text="${cita.estado}"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="text-center mt-3">
+            <a th:href="@{/perfil/ver}" class="btn btn-secondary">Volver al Perfil</a>
+        </div>
+    </div>
+
+    <footer th:replace="~{layout/fragmentos :: footer}"></footer>
+</body>
+</html>

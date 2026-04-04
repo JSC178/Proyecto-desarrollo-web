@@ -41,9 +41,9 @@ public class CitaServiceImpl implements CitaService {
     public List<Cita> getCitas(){
         return citaRepository.findAll();
     }
-    //    @Override
-//    @Transactional(readOnly = true)
-//    public List<Cita> getCitas(Long idUsuario) {
-//        return citaRepository.findByIdUsuario(idUsuario);
-//    }
+    @Override
+    @Transactional(readOnly = true)
+    public List<Cita> getCitasPorUsuario(Long idUsuario) {
+        return citaRepository.findByIdUsuario(idUsuario);
+    }
 }
