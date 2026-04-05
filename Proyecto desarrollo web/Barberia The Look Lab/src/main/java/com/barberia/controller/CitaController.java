@@ -30,15 +30,23 @@ public class CitaController {
     @Autowired
     private ServicioService servicioService;
 
+
     @Autowired
     private UsuarioService usuarioService;
 
     @Autowired
     private CorreoService correoService;
 
+
+    //  Mostrar el formulario y cargar la lista de barberos/estilistas
+    //metodo para mostrar la pagina
+
     @GetMapping("/agendar")
     public String mostrarFormularioAgendar(Model model) {
         model.addAttribute("cita", new Cita());
+
+        
+        // Cargamos la lista de empleados para el menu desplegable (Historia SC-402)
 
         var empleados = empleadoService.getEmpleados(true);
         model.addAttribute("empleados", empleados);

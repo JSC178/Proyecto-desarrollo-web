@@ -1,6 +1,5 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ *      EN ESTA CLASE ESTA EL CODIGO 
  */
 package com.barberia.service.impl;
 
@@ -21,12 +20,14 @@ public class CitaServiceImpl implements CitaService {
     @Override
     @Transactional
     public void save(Cita cita) {
+        //toma la cita guardada y la envia al sql 
         citaRepository.save(cita);
     }
 
     @Override
     @Transactional
     public void delete(Cita cita) {
+        //toma la cita y la elimina del sql
         citaRepository.delete(cita);
     }
 
@@ -35,15 +36,17 @@ public class CitaServiceImpl implements CitaService {
     public Cita getCita(Cita cita) {
         return citaRepository.findById(cita.getIdCita()).orElse(null);
     }
-    
+
     @Override
     @Transactional(readOnly = true)
-    public List<Cita> getCitas(){
+    public List<Cita> getCitas() {
         return citaRepository.findAll();
     }
+
     @Override
     @Transactional(readOnly = true)
     public List<Cita> getCitasPorUsuario(Long idUsuario) {
-        return citaRepository.findByIdUsuario(idUsuario);
+        // Debe coincidir exactamente con el nombre en el Repository
+        return citaRepository.findByUsuarioIdUsuario(idUsuario);
     }
 }

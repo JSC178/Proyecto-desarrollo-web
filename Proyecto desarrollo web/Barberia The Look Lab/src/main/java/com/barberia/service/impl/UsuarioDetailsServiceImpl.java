@@ -30,8 +30,9 @@ public class UsuarioDetailsServiceImpl implements UsuarioDetailsService, UserDet
         Usuario usuario = usuarioRepository.findByUsername(username);
         
         if (usuario == null) {
-            throw new UsernameNotFoundException(username);
-        }
+        System.out.println("Usuario no encontrado en BD");
+        throw new UsernameNotFoundException(username);
+    }
         
         // Retornamos un objeto de seguridad de Spring con el usuario y sus roles
         // Nota: Persona 1 debe ayudarte con la tabla de roles según Lección 10

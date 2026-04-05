@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CitaRepository extends JpaRepository<Cita, Long> {
-    // Para ver el historial de citas pasadas del cliente  
-    List<Cita> findByIdUsuario(Long idUsuario);
+    // Busca dentro del objeto 'usuario' el atributo 'idUsuario'
+    List<Cita> findByUsuarioIdUsuario(Long idUsuario);
 }

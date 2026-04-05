@@ -21,8 +21,11 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     @Override
     @Transactional(readOnly = true)
     public List<Empleado> getEmpleados(boolean activos) {
+        //llama a todos los empleados de la base de datos
         var lista = empleadoRepository.findAll();
+        //se pregunta si tienen el estado "ACTIVO"  
         if (activos) {
+            //se remueve de la lista cualquier empleado que no tenga el estado "ACTIVO"
             lista.removeIf(e -> !e.isActivo());
         }
         return lista;

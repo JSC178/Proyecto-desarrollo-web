@@ -61,8 +61,8 @@ public class IndexController {
         return "redirect:/login"; 
     }
     
-    @GetMapping("/sesionIniciada")
-    public String cargarPaginaSesionIniciada() {
-        return "sesionIniciada/sesioniniciada"; 
-    }
+//    @GetMapping("/sesionIniciada")
+//    public String cargarPaginaSesionIniciada() {
+//        return "sesionIniciada/sesioniniciada"; 
+//    }
 }

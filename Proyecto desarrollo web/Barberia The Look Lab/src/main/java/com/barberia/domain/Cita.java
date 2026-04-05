@@ -24,6 +24,7 @@ public class Cita implements Serializable {
     private String comentarioCalificacion;
 
     // Relación con tabla usuario 
+
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
@@ -36,6 +37,9 @@ public class Cita implements Serializable {
     // Relación con tabla Servicio
     @ManyToOne
     @JoinColumn(name = "id_servicio")
+
+    
+
     private Servicio servicio;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
