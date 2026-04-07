@@ -63,7 +63,7 @@
 
                             <li class="nav-item d-flex align-items-center" sec:authorize="isAuthenticated()">
 
-                                <a href="#" class="nav-link me-3 d-flex align-items-center text-dark" title="Perfil de Usuario">
+                                <a th:href="@{/perfil/informacion}" class="nav-link me-3 d-flex align-items-center text-dark" title="Mi Perfil">
                                     <i class="fas fa-user-circle fa-2x me-2" style="color: var(--azul-petroleo);"></i>
                                     <span class="fw-bold" sec:authentication="name">Usuario</span>
                                 </a>

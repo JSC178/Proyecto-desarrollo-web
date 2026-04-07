@@ -24,7 +24,7 @@ public class PerfilController {
     @GetMapping("/sesionIniciada")
     public String inicio(Authentication authentication) {
         // Al iniciar sesión, redirigimos directamente a la vista del perfil
-        return "redirect:/perfil/informacion";
+        return "redirect:/nosotros";
     }
 
     // edición del perfil
@@ -35,7 +35,7 @@ public class PerfilController {
         Usuario usuario = usuarioService.getUsuarioPorUsername(username);
         
         model.addAttribute("usuario", usuario);
-        return "/perfil/informacion"; 
+        return "perfil/informacion"; 
     }
     @GetMapping("/perfil/historial")
     public String verHistorial(Model model, Authentication authentication) {

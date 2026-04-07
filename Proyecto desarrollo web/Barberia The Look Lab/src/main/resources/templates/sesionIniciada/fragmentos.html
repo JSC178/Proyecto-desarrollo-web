@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"> 
-    
+
     <head th:fragment="head">
         <title>The Look Lab - Panel</title>
         <meta charset="UTF-8"/>
@@ -19,13 +19,13 @@
                 <div class="container">
                     <a th:href="@{/sesionIniciada}" class="navbar-brand fw-bold text-uppercase d-flex align-items-center">
                         <img th:src="@{/img/logo.png}" alt="Logo" width="45" height="45" class="me-2 rounded-circle shadow-sm" style="object-fit: cover;">
-                        [[#{aplicacion.titulo}]]
+                            [[#{aplicacion.titulo}]]
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
-                        
+
                         <ul class="navbar-nav mx-auto">
                             <li class="nav-item px-2">
                                 <a class="nav-link" th:href="@{/sesionIniciada}">[[#{plantilla.inicio}]]</a>
@@ -52,7 +52,7 @@
                                 </ul>
                             </li>
                             <li class="nav-item d-flex align-items-center" sec:authorize="isAuthenticated()">
-                                <a href="#" class="nav-link me-3 d-flex align-items-center text-dark" title="Perfil de Usuario">
+                                <a th:href="@{/perfil/informacion}" class="nav-link me-3 d-flex align-items-center text-dark" title="Mi Perfil">
                                     <i class="fas fa-user-circle fa-2x me-2" style="color: var(--azul-petroleo);"></i>
                                     <span class="fw-bold" sec:authentication="name">Usuario</span>
                                 </a>
