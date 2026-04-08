@@ -5,7 +5,9 @@
 package com.barberia.service;
 
 import com.barberia.domain.Cita;
+import com.barberia.domain.Empleado;
 import java.util.List;
+import java.time.LocalDateTime;
 
 public interface CitaService {
 
@@ -22,4 +24,6 @@ public interface CitaService {
 
     //getter
     public Cita getCita(Cita cita);
+    
+    boolean existsByEmpleadoAndFechaHora(Empleado empleado, LocalDateTime fechaHora);
 }

@@ -10,6 +10,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.barberia.domain.Empleado;
+import java.time.LocalDateTime;
 
 @Service
 public class CitaServiceImpl implements CitaService {
@@ -48,5 +50,11 @@ public class CitaServiceImpl implements CitaService {
     public List<Cita> getCitasPorUsuario(Long idUsuario) {
         // Debe coincidir exactamente con el nombre en el Repository
         return citaRepository.findByUsuarioIdUsuario(idUsuario);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByEmpleadoAndFechaHora(Empleado empleado, LocalDateTime fechaHora) {
+        return citaRepository.existsByEmpleadoAndFechaHora(empleado, fechaHora);
     }
 }

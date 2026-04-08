@@ -49,28 +49,69 @@
                                             <td class="py-3" th:text="${cita.empleado.nombre + ' ' + cita.empleado.apellidos}"></td>
 
                                             <td class="py-3">
-                                                <span class="badge rounded-pill" 
-                                                      th:classappend="${cita.estado == 'Pendiente'} ? 'bg-warning text-dark' : 'bg-success'"
-                                                      th:text="${cita.estado}"></span>
+
+                                                <span th:if="${cita.estado == 'Pendiente'}"
+                                                      class="badge bg-warning text-dark rounded-pill">
+                                                    Pendiente
+                                                </span>
+
+                                                <span th:if="${cita.estado == 'Finalizada'}"
+                                                      class="badge bg-success rounded-pill">
+                                                    Finalizada
+                                                </span>
+
+                                                <span th:if="${cita.estado == 'Cancelada'}"
+                                                      class="badge bg-danger rounded-pill">
+                                                    Cancelada
+                                                </span>
+
                                             </td>
 
                                             <td class="py-3">
 
-                                                <a th:href="@{/cita/cancelar/{id}(id=${cita.idCita})}"
-                                                   class="btn btn-outline-danger btn-sm rounded-pill fw-bold"
-                                                   onclick="return confirm('¿Estás seguro de que deseas cancelar esta cita?');">
-                                                    <i class="fas fa-times-circle me-1"></i> Cancelar
-                                                </a>
+                                                
+                                                <div th:if="${cita.estado == 'Pendiente'}">
 
-                                                <a th:href="@{/cita/recordatorio/{id}(id=${cita.idCita})}"
-                                                   class="btn btn-outline-primary btn-sm rounded-pill fw-bold ms-1">
-                                                    <i class="fas fa-envelope me-1"></i> Recordatorio
-                                                </a>
+                                                    <a th:href="@{/cita/cancelar/{id}(id=${cita.idCita})}"
+                                                       class="btn btn-outline-danger btn-sm rounded-pill fw-bold"
+                                                       onclick="return confirm('¿Estás seguro de que deseas cancelar esta cita?');">
+                                                        <i class="fas fa-times-circle me-1"></i> Cancelar
+                                                    </a>
 
-                                                <a th:href="@{/cita/calificar/{id}(id=${cita.idCita})}"
-                                                   class="btn btn-outline-success btn-sm rounded-pill fw-bold ms-1">
-                                                    <i class="fas fa-star me-1"></i> Calificar
-                                                </a>
+                                                    <a th:href="@{/cita/editar/{id}(id=${cita.idCita})}"
+                                                       class="btn btn-outline-warning btn-sm rounded-pill px-3">
+                                                        <i class="fas fa-edit me-1"></i> Reagendar
+                                                    </a>
+
+                                                    <a th:href="@{/cita/recordatorio/{id}(id=${cita.idCita})}"
+                                                       class="btn btn-outline-primary btn-sm rounded-pill fw-bold ms-1">
+                                                        <i class="fas fa-envelope me-1"></i> Recordatorio
+                                                    </a>
+
+                                                    <a th:href="@{/cita/calificar/{id}(id=${cita.idCita})}"
+                                                       class="btn btn-outline-success btn-sm rounded-pill fw-bold ms-1">
+                                                        <i class="fas fa-star me-1"></i> Calificar
+                                                    </a>
+
+                                                </div>
+
+                                                
+                                                <div th:if="${cita.estado == 'Cancelada'}">
+
+                                                    <a th:href="@{/cita/editar/{id}(id=${cita.idCita})}"
+                                                       class="btn btn-outline-warning btn-sm rounded-pill px-3">
+                                                        <i class="fas fa-edit me-1"></i> Reagendar
+                                                    </a>
+
+                                                    <a th:href="@{/cita/eliminar/{id}(id=${cita.idCita})}"
+                                                       class="btn btn-outline-danger btn-sm rounded-pill fw-bold ms-1"
+                                                       onclick="return confirm('¿Eliminar esta cita definitivamente?');">
+                                                        <i class="fas fa-trash me-1"></i> Eliminar
+                                                    </a>
+
+                                                </div>
+
+                                            </td>
 
 
 
