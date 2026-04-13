@@ -78,6 +78,36 @@ CREATE TABLE cita (
     FOREIGN KEY (id_servicio) REFERENCES servicio(id_servicio)
 ) ENGINE = InnoDB;
 
+CREATE TABLE horario (
+    id_horario BIGINT AUTO_INCREMENT PRIMARY KEY,   
+    dia_semana VARCHAR(20) NOT NULL,
+    hora_inicio TIME NOT NULL,
+    hora_fin TIME NOT NULL,
+    id_empleado BIGINT NOT NULL,                     
+    FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado) ON DELETE CASCADE
+);
+
+CREATE TABLE promocion (
+    id_promocion BIGINT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(100) NOT NULL,          
+    descripcion VARCHAR(255) NOT NULL,    
+    porcentaje_descuento INT NOT NULL,       
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE NOT NULL,
+    activo BOOLEAN DEFAULT true             
+);
+
+
+ALTER TABLE promocion ADD COLUMN es_fidelidad BOOLEAN DEFAULT false;
+
+
+-- Esto desactiva todo usando la llave primaria para engañar al modo seguro
+UPDATE promocion SET activo = false, es_fidelidad = false WHERE id_promocion > 0;
+
+-- Ahora inserta solo la promoción que necesitamos
+INSERT INTO promocion (titulo, descripcion, porcentaje_descuento, fecha_inicio, fecha_fin, activo, es_fidelidad) 
+VALUES ('Premio Cliente Frecuente', '¡Felicidades! Disfruta un 50% de descuento por ser cliente fiel.', 50, '2026-01-01', '2026-12-31', true, true);
+
 -- 6. Inserción de datos de prueba para que Persona 2 y 4 puedan ver algo en la web
 INSERT INTO empleado (nombre, apellidos, especialidad, activo) VALUES 
 ('Juan', 'Pérez', 'Barbero Senior', true),
@@ -92,4 +122,23 @@ INSERT INTO servicio (nombre, precio, duracion_minutos, activo) VALUES
 ('Limpieza Facial', 6000, 40, true),
 ('Perfilado de Cejas', 2000, 15, true),
 ('Corte y Limpieza Facial', 10000, 60, true);
+
+-- Suponiendo que Juan es ID 1 y María es ID 2 según el orden de inserción
+-- Lunes a Viernes para Juan Pérez (ID 1)
+INSERT INTO horario (dia_semana, hora_inicio, hora_fin, id_empleado) VALUES 
+('Lunes', '08:00:00', '17:00:00', 1),
+('Martes', '08:00:00', '17:00:00', 1),
+('Miércoles', '08:00:00', '17:00:00', 1),
+('Jueves', '08:00:00', '17:00:00', 1),
+('Viernes', '08:00:00', '17:00:00', 1),
+('Sabado', '08:00:00', '13:00:00', 1);
+
+-- Lunes a Viernes para María Rodríguez (ID 2)
+INSERT INTO horario (dia_semana, hora_inicio, hora_fin, id_empleado) VALUES 
+('Lunes', '09:00:00', '18:00:00', 2),
+('Martes', '09:00:00', '18:00:00', 2),
+('Miércoles', '09:00:00', '18:00:00', 2),
+('Jueves', '09:00:00', '18:00:00', 2),
+('Viernes', '09:00:00', '18:00:00', 2),
+('Sabado', '09:00:00', '14:00:00', 2);
 
