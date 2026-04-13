@@ -1,10 +1,12 @@
 package com.barberia.controller;
 
 import com.barberia.domain.Cita;
+import com.barberia.domain.Promocion;
 import com.barberia.domain.Usuario;
 import com.barberia.service.CitaService;
 import com.barberia.service.CorreoService;
 import com.barberia.service.EmpleadoService;
+import com.barberia.service.PromocionService;
 import com.barberia.service.ServicioService;
 import com.barberia.service.UsuarioService;
 import jakarta.mail.MessagingException;
@@ -30,23 +32,47 @@ public class CitaController {
     @Autowired
     private ServicioService servicioService;
 
-
     @Autowired
     private UsuarioService usuarioService;
 
     @Autowired
     private CorreoService correoService;
 
-
-    //  Mostrar el formulario y cargar la lista de barberos/estilistas
-    //metodo para mostrar la pagina
+    @Autowired
+    private PromocionService promocionService;
 
     @GetMapping("/agendar")
-    public String mostrarFormularioAgendar(Model model) {
+    public String mostrarFormularioAgendar(Model model, org.springframework.security.core.Authentication auth) {
         model.addAttribute("cita", new Cita());
 
-        
-        // Cargamos la lista de empleados para el menu desplegable (Historia SC-402)
+        if (auth != null && auth.isAuthenticated()) {
+            String username = auth.getName();
+            Usuario usuarioLogueado = usuarioService.getUsuarioPorUsername(username);
+
+            int citasCalificadas = citaService.contarCitasCalificadas(usuarioLogueado.getIdUsuario());
+            model.addAttribute("citasCalificadas", citasCalificadas);
+
+            Promocion promoAplica = promocionService.getPromocionFidelidadSiAplica(usuarioLogueado.getIdUsuario());
+
+            if (promoAplica != null) {
+                model.addAttribute("tieneDescuento", true);
+                model.addAttribute("mensajeFidelidad", "¡Felicidades " + usuarioLogueado.getNombre() + "! Por tus 3 visitas calificadas, ganaste un " + promoAplica.getPorcentajeDescuento() + "% de descuento en esta cita.");
+            } else {
+                model.addAttribute("tieneDescuento", false);
+
+                int faltantes = 3 - (citasCalificadas % 3);
+
+                if (faltantes == 0) {
+                    faltantes = 3;
+                }
+
+                model.addAttribute("citasFaltantes", faltantes);
+            }
+
+            System.out.println("DEBUG: Usuario ID: " + usuarioLogueado.getIdUsuario());
+            System.out.println("DEBUG: Citas Calificadas: " + citasCalificadas);
+            System.out.println("DEBUG: Promo aplica: " + (promoAplica != null ? "SÍ" : "NO"));
+        }
 
         var empleados = empleadoService.getEmpleados(true);
         model.addAttribute("empleados", empleados);
@@ -65,6 +91,18 @@ public class CitaController {
         Usuario usuarioLogueado = usuarioService.getUsuarioPorUsername(username);
         cita.setUsuario(usuarioLogueado);
         cita.setEstado("Pendiente");
+
+        boolean ocupado = citaService.existsByEmpleadoAndFechaHora(
+                cita.getEmpleado(),
+                cita.getFechaHora()
+        );
+
+        if (ocupado) {
+            redirectAttributes.addFlashAttribute("mensajeError",
+                    "Ese horario ya está ocupado, elige otro.");
+
+            return "redirect:/cita/agendar";
+        }
 
         citaService.save(cita);
 
@@ -127,6 +165,8 @@ public class CitaController {
         citaBD.setCalificacion(cita.getCalificacion());
         citaBD.setComentarioCalificacion(cita.getComentarioCalificacion());
 
+        citaBD.setEstado("Finalizada");
+
         citaService.save(citaBD);
 
         redirectAttributes.addFlashAttribute("mensaje", "Calificación guardada correctamente");
@@ -135,12 +175,32 @@ public class CitaController {
 
     @GetMapping("/cancelar/{id}")
     public String cancelarCita(@PathVariable("id") Long idCita, RedirectAttributes redirectAttributes) {
+
+        Cita cita = new Cita();
+        cita.setIdCita(idCita);
+
+        cita = citaService.getCita(cita);
+
+        cita.setEstado("Cancelada");
+
+        citaService.save(cita);
+
+        redirectAttributes.addFlashAttribute("mensaje", "La cita fue cancelada exitosamente");
+
+        return "redirect:/cita/listado";
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminarCita(@PathVariable("id") Long idCita, RedirectAttributes redirectAttributes) {
+
         Cita cita = new Cita();
         cita.setIdCita(idCita);
 
         citaService.delete(cita);
-        redirectAttributes.addFlashAttribute("mensaje", "La cita fue cancelada exitosamente");
-        return "redirect:/sesionIniciada";
+
+        redirectAttributes.addFlashAttribute("mensaje", "La cita fue eliminada correctamente");
+
+        return "redirect:/cita/listado";
     }
 
     @GetMapping("/listado")
@@ -149,5 +209,24 @@ public class CitaController {
         model.addAttribute("citas", citas);
 
         return "cita/listado";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String editarCita(@PathVariable("id") Long idCita, Model model) {
+
+        Cita cita = new Cita();
+        cita.setIdCita(idCita);
+
+        cita = citaService.getCita(cita);
+
+        model.addAttribute("cita", cita);
+
+        var empleados = empleadoService.getEmpleados(true);
+        model.addAttribute("empleados", empleados);
+
+        var servicios = servicioService.getServicios(true);
+        model.addAttribute("servicios", servicios);
+
+        return "cita/agendar";
     }
 }

@@ -1,11 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
+
 package com.barberia.service;
 
 import com.barberia.domain.Cita;
+import com.barberia.domain.Empleado;
 import java.util.List;
+import java.time.LocalDateTime;
 
 public interface CitaService {
 
@@ -22,4 +21,8 @@ public interface CitaService {
 
     //getter
     public Cita getCita(Cita cita);
+    
+    boolean existsByEmpleadoAndFechaHora(Empleado empleado, LocalDateTime fechaHora);
+
+    public int contarCitasCalificadas(Long idUsuario);
 }

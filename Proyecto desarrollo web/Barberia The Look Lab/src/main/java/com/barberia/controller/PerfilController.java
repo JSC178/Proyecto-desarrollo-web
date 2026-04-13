@@ -49,7 +49,7 @@ public class PerfilController {
         
         model.addAttribute("citas", citas);
         
-        return "/perfil/historial";
+        return "perfil/historial";
     
     }
 

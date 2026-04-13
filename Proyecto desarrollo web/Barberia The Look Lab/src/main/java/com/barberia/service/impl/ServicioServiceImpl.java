@@ -23,4 +23,22 @@ public class ServicioServiceImpl implements ServicioService {
         }
         return lista;
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Servicio getServicio(Servicio servicio) {
+        return servicioRepository.findById(servicio.getIdServicio()).orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public void save(Servicio servicio) {
+        servicioRepository.save(servicio);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Servicio servicio) {
+        servicioRepository.delete(servicio);
+    }
 }

@@ -1,8 +1,8 @@
-package com.barberia.service;
+    package com.barberia.service;
 
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+    import org.springframework.security.core.userdetails.UserDetails;
+    import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public interface UsuarioDetailsService {
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
-}
+    public interface UsuarioDetailsService {
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+    }
