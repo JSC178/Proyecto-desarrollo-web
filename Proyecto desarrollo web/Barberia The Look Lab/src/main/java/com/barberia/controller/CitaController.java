@@ -1,10 +1,12 @@
 package com.barberia.controller;
 
 import com.barberia.domain.Cita;
+import com.barberia.domain.Promocion;
 import com.barberia.domain.Usuario;
 import com.barberia.service.CitaService;
 import com.barberia.service.CorreoService;
 import com.barberia.service.EmpleadoService;
+import com.barberia.service.PromocionService;
 import com.barberia.service.ServicioService;
 import com.barberia.service.UsuarioService;
 import jakarta.mail.MessagingException;
@@ -36,13 +38,42 @@ public class CitaController {
     @Autowired
     private CorreoService correoService;
 
-    //  Mostrar el formulario y cargar la lista de barberos/estilistas
-    //metodo para mostrar la pagina
+    @Autowired
+    private PromocionService promocionService;
+
     @GetMapping("/agendar")
-    public String mostrarFormularioAgendar(Model model) {
+    public String mostrarFormularioAgendar(Model model, org.springframework.security.core.Authentication auth) {
         model.addAttribute("cita", new Cita());
 
-        // Cargamos la lista de empleados para el menu desplegable (Historia SC-402)
+        if (auth != null && auth.isAuthenticated()) {
+            String username = auth.getName();
+            Usuario usuarioLogueado = usuarioService.getUsuarioPorUsername(username);
+
+            int citasCalificadas = citaService.contarCitasCalificadas(usuarioLogueado.getIdUsuario());
+            model.addAttribute("citasCalificadas", citasCalificadas);
+
+            Promocion promoAplica = promocionService.getPromocionFidelidadSiAplica(usuarioLogueado.getIdUsuario());
+
+            if (promoAplica != null) {
+                model.addAttribute("tieneDescuento", true);
+                model.addAttribute("mensajeFidelidad", "¡Felicidades " + usuarioLogueado.getNombre() + "! Por tus 3 visitas calificadas, ganaste un " + promoAplica.getPorcentajeDescuento() + "% de descuento en esta cita.");
+            } else {
+                model.addAttribute("tieneDescuento", false);
+
+                int faltantes = 3 - (citasCalificadas % 3);
+
+                if (faltantes == 0) {
+                    faltantes = 3;
+                }
+
+                model.addAttribute("citasFaltantes", faltantes);
+            }
+
+            System.out.println("DEBUG: Usuario ID: " + usuarioLogueado.getIdUsuario());
+            System.out.println("DEBUG: Citas Calificadas: " + citasCalificadas);
+            System.out.println("DEBUG: Promo aplica: " + (promoAplica != null ? "SÍ" : "NO"));
+        }
+
         var empleados = empleadoService.getEmpleados(true);
         model.addAttribute("empleados", empleados);
 

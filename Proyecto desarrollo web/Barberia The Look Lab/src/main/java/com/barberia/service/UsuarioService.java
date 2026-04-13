@@ -2,11 +2,11 @@ package com.barberia.service;
 
 import com.barberia.domain.Usuario;
 import com.barberia.repository.UsuarioRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 public class UsuarioService {
@@ -14,19 +14,47 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Transactional(readOnly = true)
+    public List<Usuario> getUsuarios() {
+        return usuarioRepository.findAll();
+    }
+
+
     public void guardarUsuario(Usuario usuario) {
         var encoder = new BCryptPasswordEncoder();
-        usuario.setPassword(encoder.encode(usuario.getPassword()));
+        
+        // Verificamos si es un usuario que ya existe (
+        if (usuario.getIdUsuario() != null && usuario.getIdUsuario() > 0) {
+            Usuario existente = usuarioRepository.findById(usuario.getIdUsuario()).orElse(null);
+            
+            if (existente != null) {
+                if (usuario.getPassword() == null || usuario.getPassword().isEmpty()) {
+                    usuario.setPassword(existente.getPassword());
+                } else {
+                    usuario.setPassword(encoder.encode(usuario.getPassword()));
+                }
+                
+                if (usuario.getRol() == null || usuario.getRol().isEmpty()) {
+                    usuario.setRol(existente.getRol());
+                }
+            }
+        } else {
+            usuario.setPassword(encoder.encode(usuario.getPassword())); 
+            
+
+            if (usuario.getRol() == null || usuario.getRol().isEmpty()) {
+                usuario.setRol("ROLE_USER"); 
+            }
+        }
         
         usuario.setActivo(true);
-        
         usuarioRepository.save(usuario);
     }
     
     public Usuario getUsuarioPorUsername(String username) {
         return usuarioRepository.findByUsername(username);
     }
-    // Editar Perfi: Actualiza sin tocar la contraseña
+
     @Transactional
     public void actualizarPerfil(Usuario usuario) {
         Usuario actual = usuarioRepository.findById(usuario.getIdUsuario()).orElse(null);
@@ -35,7 +63,6 @@ public class UsuarioService {
             actual.setApellidos(usuario.getApellidos());
             actual.setCorreo(usuario.getCorreo());
             actual.setTelefono(usuario.getTelefono());
-            // Guardamos los cambios en la base de datos local
             usuarioRepository.save(actual);
         }
     }
@@ -46,7 +73,6 @@ public class UsuarioService {
         usuarioRepository.deleteById(idUsuario);
     }
     
-    // Para cargar los datos del usuario en el formulario de edición
     @Transactional(readOnly = true)
     public Usuario getUsuarioPorId(Long idUsuario) {
         return usuarioRepository.findById(idUsuario).orElse(null);

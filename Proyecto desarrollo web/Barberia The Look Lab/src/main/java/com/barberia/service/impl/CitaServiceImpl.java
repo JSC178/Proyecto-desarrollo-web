@@ -1,6 +1,4 @@
-/*
- *      EN ESTA CLASE ESTA EL CODIGO 
- */
+
 package com.barberia.service.impl;
 
 import com.barberia.domain.Cita;
@@ -56,5 +54,11 @@ public class CitaServiceImpl implements CitaService {
     @Transactional(readOnly = true)
     public boolean existsByEmpleadoAndFechaHora(Empleado empleado, LocalDateTime fechaHora) {
         return citaRepository.existsByEmpleadoAndFechaHora(empleado, fechaHora);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public int contarCitasCalificadas(Long idUsuario) {
+        return citaRepository.countByUsuarioIdUsuarioAndEstadoAndCalificacionIsNotNull(idUsuario, "Finalizada");
     }
 }

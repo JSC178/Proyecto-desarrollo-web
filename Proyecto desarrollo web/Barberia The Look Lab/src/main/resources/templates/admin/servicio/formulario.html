@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
+    <body style="background-color: var(--marfil);">
+
+        <header th:replace="~{sesionIniciada/fragmentos :: header}"></header>
+
+        <main class="container py-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    
+                    <div class="card shadow border-0" style="border-radius: 15px;">
+                        <div class="card-header text-center text-white p-4" style="background-color: var(--azul-petroleo); border-radius: 15px 15px 0 0;">
+                            <h3 class="mb-0 fw-bold"><i class="fas fa-clipboard-list me-2"></i> Datos del Servicio</h3>
+                        </div>
+                        
+                        <div class="card-body p-5">
+                            
+                            <form th:action="@{/admin/servicio/guardar}" th:object="${servicio}" method="POST">
+                                
+                                <input type="hidden" th:field="*{idServicio}"/>
+
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label fw-bold" style="color: var(--azul-petroleo);">Nombre del Servicio</label>
+                                    <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required placeholder="Ej: Corte Clásico">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="duracion" class="form-label fw-bold" style="color: var(--azul-petroleo);">Duración (Minutos)</label>
+                                    <input type="number" class="form-control" id="duracion" th:field="*{duracionMinutos}" required placeholder="Ej: 30">
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="precio" class="form-label fw-bold" style="color: var(--azul-petroleo);">Precio (Colones)</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₡</span>
+                                        <input type="number" class="form-control" id="precio" th:field="*{precio}" required placeholder="Ej: 5000">
+                                    </div>
+                                </div>
+
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn text-white fw-bold shadow-sm" style="background-color: var(--terracota);">
+                                        <i class="fas fa-save me-2"></i> Guardar Servicio
+                                    </button>
+                                    <a th:href="@{/admin/servicio/listado}" class="btn btn-outline-secondary fw-bold">
+                                        Cancelar
+                                    </a>
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+
+        <footer th:replace="~{sesionIniciada/fragmentos :: footer}"></footer>
+
+    </body>
+</html>

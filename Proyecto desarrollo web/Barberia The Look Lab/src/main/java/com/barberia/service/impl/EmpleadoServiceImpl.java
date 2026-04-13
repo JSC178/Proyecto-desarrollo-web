@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.barberia.service.impl;
 
 import com.barberia.domain.Empleado;
@@ -21,13 +17,32 @@ public class EmpleadoServiceImpl implements EmpleadoService {
     @Override
     @Transactional(readOnly = true)
     public List<Empleado> getEmpleados(boolean activos) {
-        //llama a todos los empleados de la base de datos
+
         var lista = empleadoRepository.findAll();
-        //se pregunta si tienen el estado "ACTIVO"  
+
         if (activos) {
-            //se remueve de la lista cualquier empleado que no tenga el estado "ACTIVO"
+ 
             lista.removeIf(e -> !e.isActivo());
         }
         return lista;
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public Empleado getEmpleado(Empleado empleado) {
+        return empleadoRepository.findById(empleado.getIdEmpleado()).orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public void save(Empleado empleado) {
+        empleadoRepository.save(empleado);
+    }
+
+    @Override
+    @Transactional
+    public void delete(Empleado empleado) {
+        empleadoRepository.delete(empleado);
     }
 }

@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 
-    <head th:replace="~{general/fragmentos :: head}"></head>
+    <head th:replace="~{sesionIniciada/fragmentos :: head}"></head>
 
     <body style="background-color: var(--marfil);">
 
@@ -16,20 +16,20 @@
             </div>
         </div>
 
-
         <main class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6">
-
                     <div class="card shadow border-0" style="border-radius: 15px;">
-
                         <div class="card-header text-center text-white p-4" style="background-color: var(--azul-petroleo); border-radius: 15px 15px 0 0;">
                             <h3 class="mb-0 fw-bold text-uppercase"><i class="fas fa-calendar-plus me-2"></i> Agendar Cita</h3>
                         </div>
 
                         <div class="card-body p-5">
 
-                            <form th:action="@{/cita/guardar}" th:object="${cita}" method="POST">
+                            <div th:if="${tieneDescuento}" class="alert shadow-sm text-center mb-4" style="background-color: #ffd700; color: #856404; border-radius: 10px;">
+                                <h5 class="fw-bold m-0"><i class="fas fa-crown me-2"></i> <span th:text="${mensajeFidelidad}"></span></h5>
+                            </div>
+                            <form id="formCita" th:action="@{/cita/guardar}" th:object="${cita}" method="POST">
                                 <input type="hidden" th:field="*{idCita}">
 
                                     <div class="mb-4">
@@ -46,7 +46,7 @@
                                     <div class="mb-4">
                                         <label for="empleado" class="form-label fw-bold" style="color: var(--azul-petroleo);">Elige a tu profesional</label>
                                         <select class="form-select form-select-lg" id="empleado" name="empleado.idEmpleado" required>
-                                            <option value="" disabled selected>Cualquier profesional...</option>
+                                            <option value="" disabled selected>Selecciona un profesional...</option>
                                             <option th:each="e : ${empleados}" 
                                                     th:value="${e.idEmpleado}" 
                                                     th:text="${e.nombre} + ' ' + ${e.apellidos}">
@@ -55,8 +55,18 @@
                                     </div>
 
                                     <div class="mb-4">
-                                        <label for="fechaHora" class="form-label fw-bold" style="color: var(--azul-petroleo);">Fecha y Hora de la Cita</label>
-                                        <input type="datetime-local" class="form-control form-control-lg" id="fechaHora" th:field="*{fechaHora}" required>
+                                        <label for="fechaSeleccionada" class="form-label fw-bold" style="color: var(--azul-petroleo);">Selecciona la Fecha</label>
+                                        <input type="date" class="form-control form-control-lg" id="fechaSeleccionada" required>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label class="form-label fw-bold" style="color: var(--azul-petroleo);">Horas Disponibles</label>
+
+                                        <div id="contenedorHoras" class="d-flex flex-wrap gap-2 p-3 bg-light rounded border">
+                                            <span class="text-muted small"><i class="fas fa-info-circle me-1"></i> Selecciona un profesional y una fecha para ver sus horarios.</span>
+                                        </div>
+
+                                        <input type="hidden" id="fechaHoraReal" th:field="*{fechaHora}" required>
                                     </div>
 
                                     <div class="d-grid mt-4">
@@ -64,16 +74,92 @@
                                             <i class="fas fa-check-circle me-2"></i> Confirmar Cita
                                         </button>
                                     </div>
-
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </main>
 
         <footer th:replace="~{sesionIniciada/fragmentos :: footer}"></footer>
 
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const selectEmpleado = document.getElementById("empleado");
+                const inputFecha = document.getElementById("fechaSeleccionada");
+                const contenedorHoras = document.getElementById("contenedorHoras");
+                const inputFechaHoraReal = document.getElementById("fechaHoraReal");
+                const formCita = document.getElementById("formCita");
+
+                const hoy = new Date().toISOString().split('T')[0];
+                inputFecha.setAttribute('min', hoy);
+
+                function cargarHorasDisponibles() {
+                    const idEmpleado = selectEmpleado.value;
+                    const fecha = inputFecha.value;
+
+                    if (idEmpleado && fecha) {
+                        contenedorHoras.innerHTML = '<span class="text-muted"><i class="fas fa-spinner fa-spin me-1"></i> Buscando espacios...</span>';
+
+                        fetch(`/api/agenda/horas-disponibles?idEmpleado=${idEmpleado}&fechaString=${fecha}`)
+                                .then(response => response.json())
+                                .then(horas => {
+                                    contenedorHoras.innerHTML = '';
+
+                                    if (horas.length === 0) {
+                                        contenedorHoras.innerHTML = '<span class="text-danger fw-bold"><i class="fas fa-times-circle me-1"></i> El profesional no labora este día o no hay campos.</span>';
+                                        inputFechaHoraReal.value = "";
+                                        return;
+                                    }
+
+                                    horas.forEach(hora => {
+
+                                        const horaFormateada = hora.length === 5 ? hora : "0" + hora;
+
+                                        const btn = document.createElement("button");
+                                        btn.type = "button";
+                                        btn.className = "btn btn-outline-dark fw-bold";
+                                        btn.innerText = horaFormateada;
+
+
+                                        btn.onclick = function () {
+
+                                            const botones = contenedorHoras.querySelectorAll("button");
+                                            botones.forEach(b => {
+                                                b.classList.remove("btn-dark", "text-white");
+                                                b.classList.add("btn-outline-dark");
+                                            });
+
+
+                                            btn.classList.remove("btn-outline-dark");
+                                            btn.classList.add("btn-dark", "text-white");
+
+
+                                            inputFechaHoraReal.value = fecha + "T" + horaFormateada;
+                                        };
+
+                                        contenedorHoras.appendChild(btn);
+                                    });
+                                })
+                                .catch(error => {
+                                    contenedorHoras.innerHTML = '<span class="text-danger"><i class="fas fa-exclamation-triangle me-1"></i> Error de conexión. Intente de nuevo.</span>';
+                                });
+                    } else {
+                        contenedorHoras.innerHTML = '<span class="text-muted small"><i class="fas fa-info-circle me-1"></i> Selecciona un profesional y una fecha para ver sus horarios.</span>';
+                        inputFechaHoraReal.value = "";
+                    }
+                }
+
+                selectEmpleado.addEventListener("change", cargarHorasDisponibles);
+                inputFecha.addEventListener("change", cargarHorasDisponibles);
+
+                formCita.addEventListener("submit", function (event) {
+                    if (inputFechaHoraReal.value === "") {
+                        event.preventDefault();
+                        alert("Por favor, selecciona una hora disponible antes de confirmar la cita.");
+                    }
+                });
+            });
+        </script>
     </body>
 </html>

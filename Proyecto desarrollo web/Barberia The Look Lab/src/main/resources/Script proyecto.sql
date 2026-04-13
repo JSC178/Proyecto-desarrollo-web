@@ -36,6 +36,7 @@ CREATE TABLE usuario (
     telefono VARCHAR(15),
     ruta_imagen VARCHAR(1024),
     activo BOOLEAN,
+    rol VARCHAR(20) DEFAULT 'ROLE_USER', -- ¡NUEVA COLUMNA!
     PRIMARY KEY (id_usuario)
 ) ENGINE = InnoDB;
 
@@ -91,3 +92,4 @@ INSERT INTO servicio (nombre, precio, duracion_minutos, activo) VALUES
 ('Limpieza Facial', 6000, 40, true),
 ('Perfilado de Cejas', 2000, 15, true),
 ('Corte y Limpieza Facial', 10000, 60, true);
+

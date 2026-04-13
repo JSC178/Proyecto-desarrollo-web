@@ -1,41 +1,42 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.barberia.service.impl;
-
 
 import com.barberia.domain.Usuario;
 import com.barberia.repository.UsuarioRepository;
 import com.barberia.service.UsuarioDetailsService;
 import java.util.ArrayList;
+import java.util.List; 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User; // ¡IMPORTANTE!
+import org.springframework.security.core.GrantedAuthority; 
+import org.springframework.security.core.authority.SimpleGrantedAuthority; 
+import org.springframework.security.core.userdetails.User; 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service("userDetailsService")
 public class UsuarioDetailsServiceImpl implements UsuarioDetailsService, UserDetailsService {
+    
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Override
-    @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        // Buscamos el usuario en la base de datos
-        Usuario usuario = usuarioRepository.findByUsername(username);
-        
-        if (usuario == null) {
-        System.out.println("Usuario no encontrado en BD");
+@Transactional(readOnly = true)
+public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    Usuario usuario = usuarioRepository.findByUsername(username);
+    
+    if (usuario == null) {
+        System.out.println(">>> Error: Usuario no encontrado en BD: " + username);
         throw new UsernameNotFoundException(username);
     }
-        
-        // Retornamos un objeto de seguridad de Spring con el usuario y sus roles
-        // Nota: Persona 1 debe ayudarte con la tabla de roles según Lección 10
-        return new User(usuario.getUsername(), usuario.getPassword(), new ArrayList<>());
-    }
+
+    List<GrantedAuthority> roles = new ArrayList<>();
+    
+    roles.add(new SimpleGrantedAuthority(usuario.getRol()));
+    
+    System.out.println(">>> LOGIN EXITOSO - Usuario: " + username + " | Rol en BD: " + usuario.getRol());
+    
+    return new User(usuario.getUsername(), usuario.getPassword(), roles);
+}
 }
