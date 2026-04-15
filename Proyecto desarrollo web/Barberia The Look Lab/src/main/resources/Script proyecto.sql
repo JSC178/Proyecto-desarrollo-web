@@ -1,5 +1,5 @@
 /*
-  Script de creación de base de datos para TechShop
+  Script de creación de base de datos para Barbershop
   Este script crea el esquema, tablas, usuarios, y
   carga datos de ejemplo.
 */
