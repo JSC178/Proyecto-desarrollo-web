@@ -18,7 +18,7 @@ public class UsuarioAdminController {
     @Autowired
     private UsuarioService usuarioService;
 
-    // 1.El administrador puede ver una tabla con TODOS los usuarios registrados
+    // El administrador puede ver una tabla con todos los usuarios registrados
     @GetMapping("/listado")
     public String listado(Model model) {
         var usuarios = usuarioService.getUsuarios();
@@ -26,14 +26,14 @@ public class UsuarioAdminController {
         return "admin/usuario/listado";
     }
 
-    // 2. El administrador abre un formulario en blanco para registrar a un nuevo barbero
+    // El administradorpuede registrar a un nuevo barbero
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "admin/usuario/formulario";
     }
 
-    // 3. Guarda en la base de datos al usuario que el administrador acaba de crear o editar
+    // Guarda en la base de datos al usuario que el administrador acaba de crear o editar
     @PostMapping("/guardar")
     public String guardar(Usuario usuario, RedirectAttributes redirectAttributes) {
         usuarioService.guardarUsuario(usuario);
@@ -41,7 +41,7 @@ public class UsuarioAdminController {
         return "redirect:/admin/usuario/listado";
     }
 
-    // 4. El administrador entra a editar los datos de OTRO usuario
+    // El administrador puede editar datos de otro usuario 
     @GetMapping("/modificar/{idUsuario}")
     public String modificar(@PathVariable("idUsuario") Long idUsuario, Model model) {
         Usuario usuario = usuarioService.getUsuarioPorId(idUsuario);
@@ -49,7 +49,7 @@ public class UsuarioAdminController {
         return "admin/usuario/formulario";
     }
 
-    // 5. El administrador elimina o borra a un usuario del sistema usando su ID
+    
     @GetMapping("/eliminar/{idUsuario}")
     public String eliminar(@PathVariable("idUsuario") Long idUsuario, RedirectAttributes redirectAttributes) {
         usuarioService.eliminarUsuario(idUsuario);

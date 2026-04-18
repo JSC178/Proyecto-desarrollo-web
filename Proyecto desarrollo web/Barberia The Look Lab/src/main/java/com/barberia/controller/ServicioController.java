@@ -19,7 +19,7 @@ public class ServicioController {
     @Autowired
     private ServicioService servicioService;
 
-    // 1. Aqui se muestra la lista de servicios en la vista del administrador
+    //lista de servicios en la vista del administrador
     @GetMapping("/listado")
     public String listado(Model model) {
 
@@ -29,14 +29,14 @@ public class ServicioController {
         return "admin/servicio/listado";
     }
 
-    // 2. Aqui se muestra el formulario en blanco para crear un NUEVO servicio
+    //  muestra el formulario en blanco para crear un nuevo servicio
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("servicio", new Servicio());
         return "admin/servicio/formulario";
     }
 
-    // 3. Aqui se puede guardar o actualizar un servicio 
+    
     @PostMapping("/guardar")
     public String guardar(Servicio servicio, RedirectAttributes redirectAttributes) {
         servicioService.save(servicio);
@@ -46,7 +46,7 @@ public class ServicioController {
         return "redirect:/admin/servicio/listado";
     }
 
-    // 4. Aqui se muestra el formulario con los datos cargados para EDITAR un servicio
+   
     @GetMapping("/modificar/{idServicio}")
     public String modificar(@PathVariable("idServicio") Long idServicio, Model model) {
         
@@ -59,7 +59,7 @@ public class ServicioController {
         return "admin/servicio/formulario";
     }
 
-    // 5. Aqui se puede eliminar un servicio de la base de datos
+    
     @GetMapping("/eliminar/{idServicio}")
     public String eliminar(@PathVariable("idServicio") Long idServicio, RedirectAttributes redirectAttributes) {
         

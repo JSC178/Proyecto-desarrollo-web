@@ -21,7 +21,7 @@ public class HorarioServiceImpl implements HorarioService {
     private HorarioRepository horarioRepository;
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) //trae todos los horarios de un barbero
     public List<Horario> getHorariosPorEmpleado(Long idEmpleado) {
         return horarioRepository.findByEmpleadoIdEmpleado(idEmpleado);
     }
@@ -39,7 +39,7 @@ public class HorarioServiceImpl implements HorarioService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) //busca el horario para un dia determinado
     public Horario findByEmpleadoAndDia(Long idEmpleado, String diaSemana) {
         return horarioRepository.findByEmpleadoIdEmpleadoAndDiaSemana(idEmpleado, diaSemana);
     }

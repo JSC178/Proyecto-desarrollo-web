@@ -46,19 +46,19 @@ public class CitaServiceImpl implements CitaService {
     @Override
     @Transactional(readOnly = true)
     public List<Cita> getCitasPorUsuario(Long idUsuario) {
-        // Debe coincidir exactamente con el nombre en el Repository
+        
         return citaRepository.findByUsuarioIdUsuario(idUsuario);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true) //valida disponibilidad, devuelve true si el barbero ya tiene un compromiso
     public boolean existsByEmpleadoAndFechaHora(Empleado empleado, LocalDateTime fechaHora) {
         return citaRepository.existsByEmpleadoAndFechaHora(empleado, fechaHora);
     }
     
     @Override
     @Transactional(readOnly = true)
-    public int contarCitasCalificadas(Long idUsuario) {
+    public int contarCitasCalificadas(Long idUsuario) { //cuenta cuantas citas ha finalizado y calificado el usuario
         return citaRepository.countByUsuarioIdUsuarioAndEstadoAndCalificacionIsNotNull(idUsuario, "Finalizada");
     }
 }

@@ -29,8 +29,10 @@ public class UsuarioService {
             
             if (existente != null) {
                 if (usuario.getPassword() == null || usuario.getPassword().isEmpty()) {
+                    //si esta en blanco la contraseña, mantiene la vieja
                     usuario.setPassword(existente.getPassword());
                 } else {
+                    //si puso una nueva la encripta
                     usuario.setPassword(encoder.encode(usuario.getPassword()));
                 }
                 
@@ -38,10 +40,10 @@ public class UsuarioService {
                     usuario.setRol(existente.getRol());
                 }
             }
-        } else {
+        } else { 
             usuario.setPassword(encoder.encode(usuario.getPassword())); 
             
-
+// si el id es nulo, se encripta la clave y se le asigna un rol por defecto
             if (usuario.getRol() == null || usuario.getRol().isEmpty()) {
                 usuario.setRol("ROLE_USER"); 
             }

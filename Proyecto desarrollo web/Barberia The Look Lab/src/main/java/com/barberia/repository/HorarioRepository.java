@@ -8,5 +8,6 @@ public interface HorarioRepository extends JpaRepository<Horario, Long> {
     
     List<Horario> findByEmpleadoIdEmpleado(Long idEmpleado);
     
+    //permite buscar el horario especifico de un empleado
     Horario findByEmpleadoIdEmpleadoAndDiaSemana(Long idEmpleado, String diaSemana);
 }

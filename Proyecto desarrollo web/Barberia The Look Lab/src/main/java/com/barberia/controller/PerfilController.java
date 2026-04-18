@@ -30,7 +30,7 @@ public class PerfilController {
     // edición del perfil
     @GetMapping("/perfil/informacion")
     public String verPerfil(Model model, Authentication authentication) {
-        // Obtenemos el username del usuario logueado
+        // username del usuario logueado
         String username = authentication.getName();
         Usuario usuario = usuarioService.getUsuarioPorUsername(username);
         
@@ -39,7 +39,7 @@ public class PerfilController {
     }
     @GetMapping("/perfil/historial")
     public String verHistorial(Model model, Authentication authentication) {
-        //  Obtiene el usuario que tiene la sesión iniciada
+        //  se Obtiene el usuario que tiene la sesión iniciada
         String username = authentication.getName();
         Usuario usuario = usuarioService.getUsuarioPorUsername(username);
         

@@ -92,7 +92,7 @@ public class CitaController {
         cita.setUsuario(usuarioLogueado);
         cita.setEstado("Pendiente");
 
-        boolean ocupado = citaService.existsByEmpleadoAndFechaHora(
+        boolean ocupado = citaService.existsByEmpleadoAndFechaHora( //revisa si el barbero ya tiene una cita a esa hora
                 cita.getEmpleado(),
                 cita.getFechaHora()
         );
@@ -127,7 +127,7 @@ public class CitaController {
     public String enviarRecordatorio(@PathVariable("id") Long idCita, RedirectAttributes redirectAttributes) {
         Cita cita = new Cita();
         cita.setIdCita(idCita);
-        cita = citaService.getCita(cita);
+        cita = citaService.getCita(cita); //trae toda la informacion de la cita 
 
         try {
             String asunto = "Recordatorio de cita - Barbería";
