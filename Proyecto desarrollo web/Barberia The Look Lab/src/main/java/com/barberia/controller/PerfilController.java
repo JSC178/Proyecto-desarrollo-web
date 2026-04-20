@@ -23,7 +23,6 @@ public class PerfilController {
     
     @GetMapping("/sesionIniciada")
     public String inicio(Authentication authentication) {
-        // Al iniciar sesión, redirigimos directamente a la vista del perfil
         return "redirect:/nosotros";
     }
 
@@ -64,7 +63,7 @@ public class PerfilController {
     //  Eliminar la cuenta
     @PostMapping("/perfil/eliminar")
     public String eliminarCuenta(Usuario usuario) {
-        // Se elimina al usuario de la base de datos local
+        // Se elimina al usuario de la base de datos 
         usuarioService.eliminarUsuario(usuario.getIdUsuario());
         
         SecurityContextHolder.clearContext(); 

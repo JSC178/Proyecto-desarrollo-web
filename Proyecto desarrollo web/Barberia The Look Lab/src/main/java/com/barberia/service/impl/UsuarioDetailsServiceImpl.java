@@ -24,18 +24,18 @@ public class UsuarioDetailsServiceImpl implements UsuarioDetailsService, UserDet
     @Override
 @Transactional(readOnly = true)
 public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Usuario usuario = usuarioRepository.findByUsername(username);
+    Usuario usuario = usuarioRepository.findByUsername(username); //toma el usuario y lo busca en BD
     
     if (usuario == null) {
-        System.out.println(">>> Error: Usuario no encontrado en BD: " + username);
+        System.out.println(" Error: Usuario no encontrado en BD: " + username);
         throw new UsernameNotFoundException(username);
     }
 
     List<GrantedAuthority> roles = new ArrayList<>();
     
-    roles.add(new SimpleGrantedAuthority(usuario.getRol()));
+    roles.add(new SimpleGrantedAuthority(usuario.getRol())); //guarda el rol de la bd y lo convierte en una autoridad valid
     
-    System.out.println(">>> LOGIN EXITOSO - Usuario: " + username + " | Rol en BD: " + usuario.getRol());
+    System.out.println(" LOGIN EXITOSO - Usuario: " + username + " - Rol en BD: " + usuario.getRol());
     
     return new User(usuario.getUsername(), usuario.getPassword(), roles);
 }

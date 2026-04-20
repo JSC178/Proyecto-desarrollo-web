@@ -65,7 +65,7 @@ public class ProjectConfig implements WebMvcConfigurer {
     public void configurerGlobal(AuthenticationManagerBuilder build,
             @Lazy UserDetailsService userDetailsService,
             @Lazy PasswordEncoder passwordEncoder) throws Exception {
-        // El @Lazy evita el error de "Circular Reference"
+        
         build.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 

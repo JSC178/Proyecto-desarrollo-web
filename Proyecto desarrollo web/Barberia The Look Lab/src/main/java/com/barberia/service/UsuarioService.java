@@ -23,10 +23,10 @@ public class UsuarioService {
     public void guardarUsuario(Usuario usuario) {
         var encoder = new BCryptPasswordEncoder();
         
-        // Verificamos si es un usuario que ya existe (
+        
         if (usuario.getIdUsuario() != null && usuario.getIdUsuario() > 0) {
             Usuario existente = usuarioRepository.findById(usuario.getIdUsuario()).orElse(null);
-            
+            // Verificamos si es un usuario que ya existe (
             if (existente != null) {
                 if (usuario.getPassword() == null || usuario.getPassword().isEmpty()) {
                     //si esta en blanco la contraseña, mantiene la vieja
@@ -43,7 +43,7 @@ public class UsuarioService {
         } else { 
             usuario.setPassword(encoder.encode(usuario.getPassword())); 
             
-// si el id es nulo, se encripta la clave y se le asigna un rol por defecto
+// si el usuario no existe, se encripta la clave y se le asigna un rol por defecto
             if (usuario.getRol() == null || usuario.getRol().isEmpty()) {
                 usuario.setRol("ROLE_USER"); 
             }

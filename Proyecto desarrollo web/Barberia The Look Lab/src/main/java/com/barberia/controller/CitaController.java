@@ -46,7 +46,7 @@ public class CitaController {
         model.addAttribute("cita", new Cita());
 
         if (auth != null && auth.isAuthenticated()) {
-            String username = auth.getName();
+            String username = auth.getName(); //nombre del usuario logueado
             Usuario usuarioLogueado = usuarioService.getUsuarioPorUsername(username);
 
             int citasCalificadas = citaService.contarCitasCalificadas(usuarioLogueado.getIdUsuario());
@@ -87,7 +87,7 @@ public class CitaController {
     public String guardarCita(Cita cita, RedirectAttributes redirectAttributes,
             org.springframework.security.core.Authentication auth) {
 
-        String username = auth.getName();
+        String username = auth.getName(); //obtiene el usuario que esta logueado
         Usuario usuarioLogueado = usuarioService.getUsuarioPorUsername(username);
         cita.setUsuario(usuarioLogueado);
         cita.setEstado("Pendiente");
