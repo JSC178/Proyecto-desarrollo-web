@@ -19,6 +19,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+//Controla las acciones del usuario relacionadas con las citas. 
+//Maneja el formulario de agendar, guarda la cita, lista las citas, 
+//cancela citas, envía recordatorios y gestiona la calificación.
+
+
+
 @Controller
 @RequestMapping("/cita")
 public class CitaController {
@@ -89,8 +95,8 @@ public class CitaController {
 
         String username = auth.getName(); //obtiene el usuario que esta logueado
         Usuario usuarioLogueado = usuarioService.getUsuarioPorUsername(username);
-        cita.setUsuario(usuarioLogueado);
-        cita.setEstado("Pendiente");
+        cita.setUsuario(usuarioLogueado);//asigna ese usuario a la cita
+        cita.setEstado("Pendiente");//pone el estado en pendiente
 
         boolean ocupado = citaService.existsByEmpleadoAndFechaHora( //revisa si el barbero ya tiene una cita a esa hora
                 cita.getEmpleado(),
@@ -99,7 +105,7 @@ public class CitaController {
 
         if (ocupado) {
             redirectAttributes.addFlashAttribute("mensajeError",
-                    "Ese horario ya está ocupado, elige otro.");
+                    "Ese horario ya está ocupado, elige otro.");//manda el mensaje de que está ocupado y redirige
 
             return "redirect:/cita/agendar";
         }
@@ -111,11 +117,11 @@ public class CitaController {
             String contenido = "<h2>Hola " + usuarioLogueado.getNombre() + "</h2>"
                     + "<p>Su cita fue agendada de forma correcta.</p>"
                     + "<p><b>Fecha y hora:</b> " + cita.getFechaHora() + "</p>"
-                    + "<p>Gracias por preferirnos.</p>";
+                    + "<p>Gracias por preferirnos.</p>";//si no está ocupado, guarda la cita
 
             correoService.enviarCorreoHtml(usuarioLogueado.getCorreo(), asunto, contenido);
         } catch (MessagingException e) {
-            System.out.println("Error al enviar correo: " + e.getMessage());
+            System.out.println("Error al enviar correo: " + e.getMessage());//aquí envía el correo de confirmación
         }
 
         redirectAttributes.addFlashAttribute("mensaje", "La cita fue agendada de forma correcta");
@@ -134,7 +140,7 @@ public class CitaController {
             String contenido = "<h2>Hola " + cita.getUsuario().getNombre() + "</h2>"
                     + "<p>Le recordamos que tiene una cita pendiente.</p>"
                     + "<p><b>Fecha y hora:</b> " + cita.getFechaHora() + "</p>"
-                    + "<p>Le esperamos.</p>";
+                    + "<p>Le esperamos.</p>";//aquí envía el recordatorio de la cita.
 
             correoService.enviarCorreoHtml(cita.getUsuario().getCorreo(), asunto, contenido);
             redirectAttributes.addFlashAttribute("mensaje", "Recordatorio enviado correctamente");
@@ -148,7 +154,7 @@ public class CitaController {
 
     @GetMapping("/calificar/{id}")
     public String mostrarFormularioCalificar(@PathVariable("id") Long idCita, Model model) {
-        Cita cita = new Cita();
+        Cita cita = new Cita();     //aqui abre la vista para calificar una cita
         cita.setIdCita(idCita);
         cita = citaService.getCita(cita);
 
@@ -159,7 +165,7 @@ public class CitaController {
     @PostMapping("/guardarCalificacion")
     public String guardarCalificacion(Cita cita, RedirectAttributes redirectAttributes) {
         Cita citaBD = new Cita();
-        citaBD.setIdCita(cita.getIdCita());
+        citaBD.setIdCita(cita.getIdCita());     //aqui se guarda la calificación con el comentario del usuario
         citaBD = citaService.getCita(citaBD);
 
         citaBD.setCalificacion(cita.getCalificacion());
@@ -174,14 +180,14 @@ public class CitaController {
     }
 
     @GetMapping("/cancelar/{id}")
-    public String cancelarCita(@PathVariable("id") Long idCita, RedirectAttributes redirectAttributes) {
+    public String cancelarCita(@PathVariable("id") Long idCita, RedirectAttributes redirectAttributes) { //aqui busca la cita por id
 
-        Cita cita = new Cita();
+        Cita cita = new Cita(); 
         cita.setIdCita(idCita);
 
         cita = citaService.getCita(cita);
 
-        cita.setEstado("Cancelada");
+        cita.setEstado("Cancelada"); //cambia el estado de la cita a cancelada
 
         citaService.save(cita);
 
@@ -194,39 +200,39 @@ public class CitaController {
     public String eliminarCita(@PathVariable("id") Long idCita, RedirectAttributes redirectAttributes) {
 
         Cita cita = new Cita();
-        cita.setIdCita(idCita);
+        cita.setIdCita(idCita);    //aqui elimina la cita
 
         citaService.delete(cita);
 
         redirectAttributes.addFlashAttribute("mensaje", "La cita fue eliminada correctamente");
 
-        return "redirect:/cita/listado";
+        return "redirect:/cita/listado"; //muestra el mensaje y redirecciona
     }
 
     @GetMapping("/listado")
     public String listadoCitas(Model model) {
-        var citas = citaService.getCitas();
+        var citas = citaService.getCitas();    //muestra el listado de todas las citas
         model.addAttribute("citas", citas);
 
         return "cita/listado";
     }
 
     @GetMapping("/editar/{id}")
-    public String editarCita(@PathVariable("id") Long idCita, Model model) {
+    public String editarCita(@PathVariable("id") Long idCita, Model model) { //busca la cita por id
 
         Cita cita = new Cita();
-        cita.setIdCita(idCita);
+        cita.setIdCita(idCita);     //la manda al modelo
 
         cita = citaService.getCita(cita);
 
         model.addAttribute("cita", cita);
 
-        var empleados = empleadoService.getEmpleados(true);
+        var empleados = empleadoService.getEmpleados(true);    //vuelve a cargar empleados y servicios
         model.addAttribute("empleados", empleados);
 
         var servicios = servicioService.getServicios(true);
         model.addAttribute("servicios", servicios);
 
-        return "cita/agendar";
-    }
+        return "cita/agendar";   //reutiliza la vista cita/agendar
+    } 
 }

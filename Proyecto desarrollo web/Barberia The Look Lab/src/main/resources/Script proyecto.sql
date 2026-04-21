@@ -73,7 +73,7 @@ CREATE TABLE cita (
     observaciones VARCHAR(255),
     estado VARCHAR(20) DEFAULT 'AGENDADA',
     PRIMARY KEY (id_cita),
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE,
     FOREIGN KEY (id_empleado) REFERENCES empleado(id_empleado),
     FOREIGN KEY (id_servicio) REFERENCES servicio(id_servicio)
 ) ENGINE = InnoDB;

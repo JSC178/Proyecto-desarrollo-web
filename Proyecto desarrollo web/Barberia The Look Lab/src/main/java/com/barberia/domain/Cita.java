@@ -25,23 +25,23 @@ public class Cita implements Serializable {
 
     // Relación con tabla usuario 
 
-    @ManyToOne
+    @ManyToOne   //una cita pertenece a un usuario
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
     // Relación con tabla empleado 
-    @ManyToOne
+    @ManyToOne    //un barbero atiende la cita
     @JoinColumn(name = "id_empleado")
     private Empleado empleado;
 
     // Relación con tabla Servicio
-    @ManyToOne
+    @ManyToOne    //aqui se define que servicio se realizó
     @JoinColumn(name = "id_servicio")
 
     
 
     private Servicio servicio;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")   //aqui se guarda cuando es la cita
     private LocalDateTime fechaHora;
 }

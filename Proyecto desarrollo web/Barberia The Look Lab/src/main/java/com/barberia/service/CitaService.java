@@ -7,11 +7,13 @@ import java.util.List;
 import java.time.LocalDateTime;
 
 public interface CitaService {
+    
+    //Este es una interfaz que define las operaciones principales del módulo de citas. Define las acciones
 
     // Para ver el listado y precios 
     public List<Cita> getCitas();
 
-    public List<Cita> getCitasPorUsuario(Long idUsuario);
+    public List<Cita> getCitasPorUsuario(Long idUsuario);   //Devuelve las citas que pertenecen a un usuario específico.
 
     // Para agendar la cita 
     public void save(Cita cita);
@@ -22,7 +24,7 @@ public interface CitaService {
     //getter
     public Cita getCita(Cita cita);
     
-    boolean existsByEmpleadoAndFechaHora(Empleado empleado, LocalDateTime fechaHora);
+    boolean existsByEmpleadoAndFechaHora(Empleado empleado, LocalDateTime fechaHora);  //verifica su ya existe una cita con ese empleado
 
-    public int contarCitasCalificadas(Long idUsuario);
+    public int contarCitasCalificadas(Long idUsuario);  //evita que dos citas se agenden al mismo tiempo con el mismo barbero
 }

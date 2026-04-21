@@ -11,6 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.barberia.domain.Empleado;
 import java.time.LocalDateTime;
 
+
+//Este implementa la lógica del módulo de las citas
+//Toma los métodos definidos en CitaService y los ejecuta utilizando el repositorio
+
+
 @Service
 public class CitaServiceImpl implements CitaService {
 
@@ -58,7 +63,7 @@ public class CitaServiceImpl implements CitaService {
     
     @Override
     @Transactional(readOnly = true)
-    public int contarCitasCalificadas(Long idUsuario) { //cuenta cuantas citas ha finalizado y calificado el usuario
+    public int contarCitasCalificadas(Long idUsuario) { //cuenta cuantas citas ha finalizado y calificado el usuario para la promoción
         return citaRepository.countByUsuarioIdUsuarioAndEstadoAndCalificacionIsNotNull(idUsuario, "Finalizada");
     }
 }
